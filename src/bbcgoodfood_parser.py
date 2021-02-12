@@ -55,11 +55,13 @@ def parse_ingredients(soup):
                 str_child = delete_unnecessary_characters(str_child)
                 arg.append(str_child)
         new_ingredient = Ingredient()
-        if is_quantity(arg[0]):
+        if len(arg) == 3:
             new_ingredient.quantity = arg[0]
             new_ingredient.product = arg[1]
-            if len(arg) == 3:
-                new_ingredient.comment = arg[2]
+            new_ingredient.comment = arg[2]
+        elif is_quantity(arg[0]):
+            new_ingredient.quantity = arg[0]
+            new_ingredient.product = arg[1]
         else:
             new_ingredient.product = arg[0]
             if len(arg) == 2:
@@ -74,7 +76,3 @@ def parse_method(soup):
     for tag in tags:
         steps_of_cooking.append(tag.find_all(class_="editor-content")[0].text)
     return steps_of_cooking
-
-
-# recipe = parse('https://www.bbcgoodfood.com/recipes/meatball-black-bean-chilli')
-# print(recipe)
